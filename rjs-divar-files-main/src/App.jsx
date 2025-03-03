@@ -1,12 +1,16 @@
 import AuthPage from "./pages/AuthPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-  return(
+  const queryClient = new QueryClient();
+  return (
     <>
-     <h1>پروژه دیوار</h1>
-    <AuthPage />
+      <QueryClientProvider client={queryClient}>
+        <h1>پروژه دیوار</h1>
+        <AuthPage />
+      </QueryClientProvider>
     </>
-  )
+  );
 }
 
 export default App;
