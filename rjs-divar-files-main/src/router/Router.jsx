@@ -4,8 +4,14 @@ import AdminPage from "../pages/AdminPage";
 import DashboardPage from "../pages/DashboardPage";
 import PageNotFound from "../pages/404";
 import AuthPage from "../pages/AuthPage";
+import { useGetProfile } from "../services/queries";
 
 const Router = () => {
+  const { data, isLoading } = useGetProfile();
+
+  console.log({ data, isLoading });
+
+  if (isLoading) return <h1>data is loading...</h1>;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
