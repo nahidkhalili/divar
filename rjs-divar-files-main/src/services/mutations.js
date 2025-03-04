@@ -5,7 +5,6 @@ import { useMutation } from "@tanstack/react-query";
 //======================== AUTH =======================//
 const useSendOtp = () => {
   const mutationFn = (number) => {
-    console.log("first", number);
     const response = api.post("auth/send-otp", number);
     return response;
   };
@@ -13,9 +12,7 @@ const useSendOtp = () => {
 };
 
 const useCheckOtp = () => {
-  const mutationFn = ({mobile, code}) => {
-    console.log("second", mobile);
-
+  const mutationFn = ({ mobile, code }) => {
     const response = api.post("auth/check-otp", { mobile, code });
     return response;
   };

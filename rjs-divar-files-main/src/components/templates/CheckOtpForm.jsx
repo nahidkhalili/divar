@@ -1,4 +1,5 @@
 import { useCheckOtp } from "../../services/mutations";
+import { setCookie } from "../../utils/cookie";
 
 /* eslint-disable react/prop-types */
 const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
@@ -9,8 +10,9 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
     mutate(
       { mobile, code },
       {
-        onSuccess: (data) => {
-          console.log(data);
+        onSuccess: (response) => {
+          console.log(response.data);
+          setCookie(response.data);
         },
         onError: (error) => {
           console.log(error);
