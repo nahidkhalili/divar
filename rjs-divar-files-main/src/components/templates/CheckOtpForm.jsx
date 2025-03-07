@@ -11,7 +11,7 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
       { mobile, code },
       {
         onSuccess: (response) => {
-          console.log(response.data);
+          console.log("set cookie:", response.data);
           setCookie(response.data);
         },
         onError: (error) => {

@@ -7,11 +7,10 @@ import AuthPage from "../pages/AuthPage";
 import { useGetProfile } from "../services/queries";
 
 const Router = () => {
-  const { data, isLoading } = useGetProfile();
-
-  console.log({ data, isLoading });
-
+  const { data, isLoading, error } = useGetProfile();
+  console.log({ data, isLoading, error });
   if (isLoading) return <h1>data is loading...</h1>;
+  // if (error) return <h1>خطا در بارگذاری داده‌ها: {error.message}</h1>;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
