@@ -1,9 +1,11 @@
 import { useCheckOtp } from "../../services/mutations";
 import { setCookie } from "../../utils/cookie";
+import {useNavigate} from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
   const { mutate, isPending } = useCheckOtp();
+  const navigate = useNavigate()
   const submitHandler = (event) => {
     event.preventDefault();
     if (isPending) return;
@@ -11,8 +13,9 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
       { mobile, code },
       {
         onSuccess: (response) => {
-          console.log("set cookie:", response.data);
+      
           setCookie(response.data);
+          navigate("/")
         },
         onError: (error) => {
           console.log(error);
