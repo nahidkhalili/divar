@@ -1,6 +1,6 @@
 import api from "../config/api";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 //======================== AUTH =======================//
 const useSendOtp = () => {
@@ -12,11 +12,19 @@ const useSendOtp = () => {
 };
 
 const useCheckOtp = () => {
+  const queryClient = useQueryClient();
   const mutationFn = ({ mobile, code }) => {
     const response = api.post("auth/check-otp", { mobile, code });
     return response;
   };
-  return useMutation({ mutationFn });
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["profile"] });
+  };
+  return useMutation({ mutationFn, onSuccess });
 };
+
+const useAddCategory = () => {
+  const mutationFn = () => {}
+}
 
 export { useSendOtp, useCheckOtp };
