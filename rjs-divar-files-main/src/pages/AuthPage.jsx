@@ -7,7 +7,7 @@ const AuthPage = () => {
   const [code, setCode] = useState("");
   console.log(step, "step");
   return (
-    <div>
+    <div className="">
       {step === 1 && (
         <SendOtpForm mobile={mobile} setMobile={setMobile} setStep={setStep} />
       )}

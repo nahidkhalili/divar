@@ -5,11 +5,12 @@ import DashboardPage from "../pages/DashboardPage";
 import PageNotFound from "../pages/404";
 import AuthPage from "../pages/AuthPage";
 import { useGetProfile } from "../services/queries";
+import Loader from "../components/modules/Loader";
 
 const Router = () => {
   const { data, isLoading, error } = useGetProfile();
   console.log({ data, isLoading, error });
-  if (isLoading) return <h1>data is loading...</h1>;
+  if (isLoading) return <Loader />;
   // if (error) return <h1>خطا در بارگذاری داده‌ها: {error.message}</h1>;
   return (
     <Routes>
