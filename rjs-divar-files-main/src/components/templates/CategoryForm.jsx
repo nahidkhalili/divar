@@ -1,10 +1,21 @@
 import { useState } from "react";
+import { useAddCategory } from "../../services/admin";
 
 const CategoryForm = () => {
+  const { mutate, isPending, error, data } = useAddCategory();
+  console.log("add category", { isPending, error, data });
   const [form, setForm] = useState({ name: "", slug: "", icon: "" });
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(form);
+    if (!form.name || !form.icon || !form.slug) return;
+    mutate(form, {
+      onError: (error) => {
+        console.log("eeeerrr", error);
+      },
+      onSuccess: (data) => {
+        console.log("Success:", data); 
+      },
+    });
   };
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -14,7 +25,16 @@ const CategoryForm = () => {
       <h3 className="mb-[30px] border-b-[3px] border-solid border-[var(--red-color)] w-fit pb-[5px]">
         دسته بندی جدید
       </h3>
-      {/* <p className="bg-[var(--red-color)] mb-[20px] text-white p-[5px] text-center rounded-md"></p> */}
+      {data?.status === "201" && (
+        <p className="bg-[var(--red-color)] mb-[20px] text-white p-[5px] text-center rounded-md">
+          دسته بندی افزوده شد
+        </p>
+      )}
+      {!!error && (
+        <p className="bg-[var(--red-color)] mb-[20px] text-white p-[5px] text-center rounded-md">
+      خطا
+        </p>
+      )}
       <label className="block text-[0.9rem] mb-[10px]" htmlFor="name">
         اسم دسته بندی
       </label>
@@ -23,6 +43,7 @@ const CategoryForm = () => {
         type="text"
         name="name"
         id="name"
+        value={form.name}
       />
       <label className="block text-[0.9rem] mb-[10px]" htmlFor="slug">
         اسلاگ
@@ -32,6 +53,7 @@ const CategoryForm = () => {
         type="text"
         name="slug"
         id="slug"
+        value={form.slug}
       />
       <label className="block text-[0.9rem] mb-[10px]" htmlFor="icon">
         آیکون{" "}
@@ -41,8 +63,15 @@ const CategoryForm = () => {
         type="text"
         name="icon"
         id="icon"
+        value={form.icon}
       />
-      <button className="bg-[var(--red-color)] text-white py-[10px] px-[25px] rounded-md text-[0.9rem] cursor-pointer" type="submit">ایجاد</button>
+      <button
+        disabled={isPending}
+        className="bg-[var(--red-color)] text-white py-[10px] px-[25px] rounded-md text-[0.9rem] cursor-pointer disabled:bg-sky-500"
+        type="submit"
+      >
+        ایجاد
+      </button>
     </form>
   );
 };

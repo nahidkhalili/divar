@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useSendOtp } from "../../services/mutations";
+import { useSendOtp } from "../../services/user";
 
 const SendOtpForm = ({ mobile, setMobile, setStep }) => {
   const { mutate, isPending } = useSendOtp();
