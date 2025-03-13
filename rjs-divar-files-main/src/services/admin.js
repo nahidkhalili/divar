@@ -22,4 +22,16 @@ const useGetCategory = () => {
   return useQuery({ queryKey, queryFn });
 };
 
-export { useAddCategory, useGetCategory };
+const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  const mutationFn = (id) => {
+    const response = api.delete(`category/${id}`);
+    return response;
+  };
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["category-list"] });
+  };
+  return useMutation({ mutationFn, onSuccess });
+};
+
+export { useAddCategory, useGetCategory, useDeleteCategory };

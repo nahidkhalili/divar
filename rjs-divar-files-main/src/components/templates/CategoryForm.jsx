@@ -13,7 +13,8 @@ const CategoryForm = () => {
         console.log("eeeerrr", error);
       },
       onSuccess: (data) => {
-        console.log("Success:", data); 
+        console.log("Success:", data);
+        setForm({ name: "", slug: "", icon: "" });
       },
     });
   };
@@ -32,7 +33,7 @@ const CategoryForm = () => {
       )}
       {!!error && (
         <p className="bg-[var(--red-color)] mb-[20px] text-white p-[5px] text-center rounded-md">
-      خطا
+          خطا
         </p>
       )}
       <label className="block text-[0.9rem] mb-[10px]" htmlFor="name">
@@ -67,7 +68,7 @@ const CategoryForm = () => {
       />
       <button
         disabled={isPending}
-        className="bg-[var(--red-color)] text-white py-[10px] px-[25px] rounded-md text-[0.9rem] cursor-pointer disabled:bg-sky-500"
+        className="bg-[var(--red-color)] text-white py-[10px] px-[25px] rounded-md text-[0.9rem] cursor-pointer disabled:opacity-50"
         type="submit"
       >
         ایجاد
