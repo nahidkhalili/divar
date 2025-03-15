@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useGetCategory } from "../../services/admin";
 import Loader from "../modules/Loader";
+import { getCookie } from "../../utils/cookie";
+import axios from "axios";
 
 const AddPost = () => {
   const [form, setForm] = useState({
@@ -36,8 +38,21 @@ const AddPost = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("sent");
-
+    const formData = new FormData();
+    for (let i in form) {
+      formData.append(i, form[i]);
+    }
+    const token = getCookie("accessToken");
+    console.log(token);
+    axios
+      .post(`${import.meta.env.VITE_BASE_URL}post/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `bearer ${token}`,
+        },
+      })
+      .then((res) => console.log("file sent", res))
+      .catch((err) => console.log(err));
   };
 
   // ====================== JSX =========================//
@@ -74,7 +89,7 @@ const AddPost = () => {
       </label>
       <input
         className="block w-[300px] p-[5px] border border-gray-500 rounded-md mb-[30px]"
-        type="text"
+        type="number"
         name="price"
         id="price"
         value={form.price}
