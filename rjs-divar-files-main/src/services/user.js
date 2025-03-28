@@ -1,6 +1,6 @@
 import api from "../config/api";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //======================== MUTATIONS =======================//
 const useSendOtp = () => {
@@ -23,6 +23,11 @@ const useCheckOtp = () => {
   return useMutation({ mutationFn, onSuccess });
 };
 
+const useGetPosts = () => {
+  const queryKey = ["get-my-posts"];
+  const queryFn = () => api.get("post/my");
 
+  return useQuery({ queryKey, queryFn });
+};
 
-export { useSendOtp, useCheckOtp };
+export { useSendOtp, useCheckOtp, useGetPosts };

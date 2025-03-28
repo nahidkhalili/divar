@@ -3,6 +3,7 @@ import { useGetCategory } from "../../services/admin";
 import Loader from "../modules/Loader";
 import { getCookie } from "../../utils/cookie";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddPost = () => {
   const [form, setForm] = useState({
@@ -51,8 +52,8 @@ const AddPost = () => {
           Authorization: `bearer ${token}`,
         },
       })
-      .then((res) => console.log("file sent", res))
-      .catch((err) => console.log(err));
+      .then((res) => toast.success(res.data.message))
+      .catch(toast.error("مشکلی پیش آمده"));
   };
 
   // ====================== JSX =========================//
