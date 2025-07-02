@@ -9,7 +9,7 @@ const AddPost = () => {
   const [form, setForm] = useState({
     title: "",
     content: "",
-    price: null,
+    amount: null,
     city: "",
     category: "",
     images: null,
@@ -29,6 +29,7 @@ const AddPost = () => {
   const changeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    console.log("value:", value);
 
     if (name !== "images") {
       setForm({ ...form, [name]: value });
@@ -41,10 +42,15 @@ const AddPost = () => {
     event.preventDefault();
     const formData = new FormData();
     for (let i in form) {
-      formData.append(i, form[i]);
+      if (i === "amount") {
+        formData.append(i, Number(form[i]));
+      } else {
+        formData.append(i, form[i]);
+      }
     }
+    console.log(formData);
     const token = getCookie("accessToken");
-    console.log(token);
+    console.log("Token:", token);
     axios
       .post(`${import.meta.env.VITE_BASE_URL}post/create`, formData, {
         headers: {
@@ -52,8 +58,18 @@ const AddPost = () => {
           Authorization: `bearer ${token}`,
         },
       })
-      .then((res) => toast.success(res.data.message))
-      .catch(toast.error("مشکلی پیش آمده"));
+      .then((res) => {
+        toast.success(res.data.message);
+        setForm({
+          title: "",
+          content: "",
+          amount: null,
+          city: "",
+          category: "",
+          images: null,
+        });
+      })
+      .catch((err) => toast.error(err));
   };
 
   // ====================== JSX =========================//
@@ -85,15 +101,15 @@ const AddPost = () => {
         onChange={changeHandler}
       />
 
-      <label className="block text-[0.9rem] mb-[10px]" htmlFor="price">
+      <label className="block text-[0.9rem] mb-[10px]" htmlFor="amount">
         قیمت
       </label>
       <input
         className="block w-[300px] p-[5px] border border-gray-500 rounded-md mb-[30px]"
         type="number"
-        name="price"
-        id="price"
-        value={form.price}
+        name="amount"
+        id="amount"
+        value={form.amount}
         onChange={changeHandler}
       />
 
@@ -138,7 +154,7 @@ const AddPost = () => {
         onChange={changeHandler}
       />
       <button
-        className="bg-[var(--red-color)] text-white px-[25px] py-[10px] rounded-md text-[0.9rem] cursor-pointer"
+        className="bg-[var(--red-color)] text-white px-[25px] py-[10px] rounded-md text-[0.9rem] cursor-pointer mb-14"
         type="submit"
       >
         ایجاد

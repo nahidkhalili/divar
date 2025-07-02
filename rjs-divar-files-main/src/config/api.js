@@ -14,7 +14,7 @@ api.interceptors.request.use(
     const accessToken = getCookie("accessToken");
     if (accessToken) {
       request.headers["Authorization"] = `bearer ${accessToken}`;
-      console.log("request", request);
+
       return request;
     }
     return request;
@@ -33,7 +33,6 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const res = await getNewToken();
-      console.log("res", res);
       if (!res?.res) return;
       setCookie(res.res.data);
       return api(originalRequest);

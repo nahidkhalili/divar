@@ -10,12 +10,8 @@ const SendOtpForm = ({ mobile, setMobile, setStep }) => {
     mutate(
       { mobile },
       {
-        onSuccess: (data) => {
-          console.log("change step", data);
+        onSuccess: () => {
           setStep(2);
-        },
-        onError: (error) => {
-          console.log("hhhhiii", error);
         },
       }
     );
@@ -30,7 +26,9 @@ const SendOtpForm = ({ mobile, setMobile, setStep }) => {
         برای استفاده از امکانات دیوار باید وارد حساب کاربری خود شوید. لطفا شماره
         موبایل خود را وارد کنی. کد تایید به شماره شما پیامک میشود.
       </span>
-      <label className="text-base font-normal" htmlFor="input">لطفا شماره موبایل خود را وارد کنید</label>
+      <label className="text-base font-normal" htmlFor="input">
+        لطفا شماره موبایل خود را وارد کنید
+      </label>
       <input
         className="mt-[10px] m-x-0 mb-[20px] p-[5px] border border-solid border-gray-500 rounded-md"
         type="text"

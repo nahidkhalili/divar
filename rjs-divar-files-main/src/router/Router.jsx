@@ -9,7 +9,7 @@ import Loader from "../components/modules/Loader";
 
 const Router = () => {
   const { data, isLoading, error } = useGetProfile();
-  console.log("hi", { data, isLoading, error });
+
   if (isLoading) return <Loader />;
   // if (error) return <h1>خطا در بارگذاری داده‌ها: {error.message}</h1>;
   return (

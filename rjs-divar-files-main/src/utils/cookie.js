@@ -1,9 +1,10 @@
 const setCookie = (tokens) => {
-  console.log("set", tokens.accessToken, tokens.refreshToken);
-  document.cookie = `accessToken=${tokens.accessToken} ; max-age=${1 * 60}`; // 60 seconds
+  document.cookie = `accessToken=${tokens.accessToken} ; max-age=${
+    1 * 60
+  } ; path=/`; // 60 seconds
   document.cookie = `refreshToken=${tokens.refreshToken} ; max-age=${
     30 * 24 * 60 * 60
-  }`;
+  }; path=/`;
 };
 
 const getCookie = (cookieName) => {
