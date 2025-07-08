@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useGetCategory } from "../../services/admin";
 import Loader from "../modules/Loader";
-import { getCookie } from "../../utils/cookie";
-import axios from "axios";
+
 import toast from "react-hot-toast";
+import { useCreatePost } from "../../services/user";
 
 const AddPost = () => {
   const [form, setForm] = useState({
@@ -15,8 +15,19 @@ const AddPost = () => {
     images: null,
   });
 
+  const resetForm = () =>
+    setForm({
+      title: "",
+      content: "",
+      amount: "",
+      city: "",
+      category: "",
+      images: null,
+    });
+
   // ================= REACT QUERY ===============//
   const { data, isLoading, error } = useGetCategory();
+  const { mutate } = useCreatePost();
   if (isLoading) {
     return <Loader />;
   }
@@ -49,27 +60,36 @@ const AddPost = () => {
       }
     }
     console.log(formData);
-    const token = getCookie("accessToken");
-    console.log("Token:", token);
-    axios
-      .post(`${import.meta.env.VITE_BASE_URL}post/create`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `bearer ${token}`,
-        },
-      })
-      .then((res) => {
+    mutate(formData, {
+      onSuccess: (res) => {
         toast.success(res.data.message);
-        setForm({
-          title: "",
-          content: "",
-          amount: null,
-          city: "",
-          category: "",
-          images: null,
-        });
-      })
-      .catch((err) => toast.error(err));
+        resetForm();
+      },
+      onError: (err) => {
+        toast.error(err?.response?.data?.message || "خطایی رخ داد");
+      },
+    });
+    //   const token = getCookie("accessToken");
+    //   console.log("Token:", token);
+    //   axios
+    //     .post(`${import.meta.env.VITE_BASE_URL}post/create`, formData, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         Authorization: `bearer ${token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       toast.success(res.data.message);
+    //       setForm({
+    //         title: "",
+    //         content: "",
+    //         amount: null,
+    //         city: "",
+    //         category: "",
+    //         images: null,
+    //       });
+    //     })
+    //     .catch((err) => toast.error(err));
   };
 
   // ====================== JSX =========================//
@@ -151,6 +171,7 @@ const AddPost = () => {
         type="file"
         name="images"
         id="images"
+        accept="image/*"
         onChange={changeHandler}
       />
       <button

@@ -1,6 +1,6 @@
 import api from "../config/api";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import apiForm from "../config/apiForm";
 
 //======================== MUTATIONS =======================//
 const useSendOtp = () => {
@@ -23,6 +23,21 @@ const useCheckOtp = () => {
   return useMutation({ mutationFn, onSuccess });
 };
 
+const useCreatePost = () => {
+  const queryClient = useQueryClient();
+  const mutationFn = (formData ) => {
+    const response = apiForm.post("post/create" , formData)
+    return response;
+  };
+
+  const onSuccess = () => {
+    queryClient.invalidateQueries({queryKey:["get-my-posts"]})
+  }
+
+  return useMutation({ mutationFn , onSuccess });
+};
+
+// ============= USEQUERY ============== //
 const useGetPosts = () => {
   const queryKey = ["get-my-posts"];
   const queryFn = () => api.get("post/my");
@@ -30,4 +45,6 @@ const useGetPosts = () => {
   return useQuery({ queryKey, queryFn });
 };
 
-export { useSendOtp, useCheckOtp, useGetPosts };
+
+
+export { useSendOtp, useCheckOtp, useGetPosts, useCreatePost };

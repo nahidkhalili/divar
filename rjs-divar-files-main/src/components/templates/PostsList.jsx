@@ -40,7 +40,7 @@ const PostsList = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="text-left">
                   <p>{new Date(post.createdAt).toLocaleDateString("fa-IR")}</p>
                   <span className="text-gray-400">{sp(post.amount)} تومان</span>
                 </div>

@@ -2,24 +2,15 @@ import axios from "axios";
 import { getCookie, setCookie } from "../utils/cookie";
 import { getNewToken } from "../services/token";
 
-// ============ API CONFIGS ================ //
-// an axios instance for json
-const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// an instance for formData
+const apiForm = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
 
-
-// =========== REQUEST INTERCEPTORS ============= //
-// api request interceptor
-api.interceptors.request.use(
+// apiForm request interceptor
+apiForm.interceptors.request.use(
   (request) => {
     const accessToken = getCookie("accessToken");
     if (accessToken) {
       request.headers["Authorization"] = `bearer ${accessToken}`;
-
       return request;
     }
     return request;
@@ -29,26 +20,21 @@ api.interceptors.request.use(
   }
 );
 
-
-
-// =========== RESPONSE INTERCEPTOR ============= //
- // api response interceptor
-api.interceptors.response.use(
+// apiForm responce interceptor
+apiForm.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retry == true;
       const res = await getNewToken();
       if (!res?.res) return;
       setCookie(res.res.data);
-      return api(originalRequest);
+      return apiForm(originalRequest);
     }
   }
 );
 
- 
-
-export default api;
+export default apiForm;
