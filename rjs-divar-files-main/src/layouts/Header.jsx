@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import DropDownMenu from "../components/modules/DropDownMenu";
 
 const Header = () => {
   return (
@@ -14,9 +15,10 @@ const Header = () => {
       </div>
       <div className="flex flex-row items-center gap-8">
         <Link to="/auth">
-          <span className="flex flex-row items-center text-gray-400 h-[50px]">
+          <span className="relative flex flex-row items-center px-6 text-gray-400 h-[50px]">
             <img className="w-[20px]" src="profile.svg" />
             <p className="text-[0.9rem] mr-2">دیوار من</p>
+              <DropDownMenu />
           </span>
         </Link>
         <Link
@@ -25,6 +27,7 @@ const Header = () => {
         >
           ثبت آگهی
         </Link>
+      
       </div>
     </header>
   );
