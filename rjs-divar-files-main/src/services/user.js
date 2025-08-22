@@ -45,6 +45,14 @@ const useGetPosts = () => {
   return useQuery({ queryKey, queryFn });
 };
 
+const useGetAllPosts = ()=> {
+  const queryKey = ["post-lists"];
+  const queryFn = () => api.get("");
+  return useQuery({queryKey , queryFn})
+}
+
+const useLogout = () => {}
 
 
-export { useSendOtp, useCheckOtp, useGetPosts, useCreatePost };
+
+export { useSendOtp, useCheckOtp, useGetPosts, useCreatePost , useGetAllPosts };

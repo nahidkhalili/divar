@@ -9,9 +9,10 @@ import Loader from "../components/modules/Loader";
 
 const Router = () => {
   const { data, isLoading, error } = useGetProfile();
+  console.log("PROFILE", { isLoading, error, data });
 
   if (isLoading) return <Loader />;
-  // if (error) return <h1>خطا در بارگذاری داده‌ها: {error.message}</h1>;
+  if (error) return <h1>خطا در بارگذاری داده‌ها: {error.message}</h1>;
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

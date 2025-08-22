@@ -11,7 +11,6 @@ const api = axios.create({
   },
 });
 
-
 // =========== REQUEST INTERCEPTORS ============= //
 // api request interceptor
 api.interceptors.request.use(
@@ -29,10 +28,8 @@ api.interceptors.request.use(
   }
 );
 
-
-
 // =========== RESPONSE INTERCEPTOR ============= //
- // api response interceptor
+// api response interceptor
 api.interceptors.response.use(
   (response) => {
     return response;
@@ -42,13 +39,16 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const res = await getNewToken();
-      if (!res?.res) return;
+      if (!res?.res) {
+        // delete cookies
+        setCookie({ accessToken: "", refreshToken: "" }, -1); // expire immediately
+        window.location.reload(); // refresh
+        return;
+      }
       setCookie(res.res.data);
       return api(originalRequest);
     }
   }
 );
-
- 
 
 export default api;
