@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "Vazir";
+  src: url("./assets/fonts/Vazirmatn-Thin.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazirmatn-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazirmatn-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazirmatn-Bold.ttf") format("truetype");
+  font-weight: bold; /* یا 700 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Vazir";
+  src: url("../assets/fonts/Vazirmatn-ExtraBold.ttf") format("truetype");
+  font-weight: 800; /* یا مقدار مناسب */
+  font-style: normal;
+}
+
+:root {
+  --red-color: #a62626;
+  font-family: "Vazir", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+body {
+  margin: auto;
+  max-width: 1400px;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+button,
+input,
+select {
+  font-family: "Vazir", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
