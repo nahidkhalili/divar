@@ -32,14 +32,7 @@ const HomePage = () => {
           <Main postData={postData} />
         </div>
       )}
-      {/* {postLoading || categoryLoading ? (
-        <Loader />
-      ) : (
-        <div className="flex flex-row">
-          <Sidebar categoryData={categoryData} />
-          <Main postData={postData} />
-        </div>
-      )} */}
+    
     </>
   );
 };
