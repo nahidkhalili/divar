@@ -4,9 +4,9 @@ import apiForm from "../config/apiForm";
 
 //======================== MUTATIONS =======================//
 const useSendOtp = () => {
-  const mutationFn = (number) => {
-    const response = api.post("auth/send-otp", number);
-    return response;
+  const mutationFn = async (number) => {
+    const res = await api.post("auth/send-otp", number);
+    return res.data; 
   };
   return useMutation({ mutationFn });
 };

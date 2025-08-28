@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useCheckOtp } from "../../services/user";
 import { setCookie } from "../../utils/cookie";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (isPending) return;
+    toast.dismiss();
     mutate(
       { mobile, code },
       {

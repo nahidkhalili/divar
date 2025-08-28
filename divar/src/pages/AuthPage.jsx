@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SendOtpForm from "../components/templates/SendOtpForm";
 import CheckOtpForm from "../components/templates/CheckOtpForm";
+
 const AuthPage = () => {
   const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
@@ -8,6 +9,7 @@ const AuthPage = () => {
 
   return (
     <div className="">
+
       {step === 1 && (
         <SendOtpForm mobile={mobile} setMobile={setMobile} setStep={setStep} />
       )}

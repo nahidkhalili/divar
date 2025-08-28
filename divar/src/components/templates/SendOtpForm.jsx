@@ -1,16 +1,29 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import { useSendOtp } from "../../services/user";
+import toast from "react-hot-toast";
 
 const SendOtpForm = ({ mobile, setMobile, setStep }) => {
+  const [otp, setOtp] = useState("");
+
+
   const { mutate, isPending } = useSendOtp();
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     if (isPending) return;
     mutate(
       { mobile },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          console.log("OTP دریافت شده:", data?.otp);
+          setOtp(data?.otp);
+
+          toast.success(`your code is ${data.otp}`, {
+            duration: 30000, // 30 sec
+            dismissable: false,
+          });
           setStep(2);
         },
       }
@@ -37,6 +50,7 @@ const SendOtpForm = ({ mobile, setMobile, setStep }) => {
         value={mobile}
         onChange={(e) => setMobile(e.target.value)}
       />
+      {otp && <p className="text-green-600 mt-4">کد تایید شما: {otp}</p>}
       <button
         type="submit"
         className="w-[110px] py-[5px] px-[10px] border-none bg-[#a62626] text-white rounded-md cursor-pointer"
