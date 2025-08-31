@@ -4,13 +4,13 @@ import { setCookie } from "../../utils/cookie";
 import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
-const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
+const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId }) => {
   const { mutate, isPending } = useCheckOtp();
   const navigate = useNavigate();
   const submitHandler = (event) => {
     event.preventDefault();
     if (isPending) return;
-    toast.dismiss();
+    otpToastId && toast.dismiss(otpToastId);
     mutate(
       { mobile, code },
       {
@@ -53,7 +53,10 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code }) => {
       <button
         className="bg-white text-[#a62626] border border-solid rounded-md border-[#a62626] w-[150px] mt-[30px] py-[5px] px-[10px] cursor-pointer
       "
-        onClick={() => setStep(1)}
+        onClick={() => {
+          setStep(1);
+          otpToastId && toast.dismiss(otpToastId);
+        }}
       >
         تغییر شماره موبایل
       </button>

@@ -6,12 +6,17 @@ const AuthPage = () => {
   const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
   const [code, setCode] = useState("");
+  const [otpToastId, setOtpToastId] = useState(null);
 
   return (
     <div className="">
-
       {step === 1 && (
-        <SendOtpForm mobile={mobile} setMobile={setMobile} setStep={setStep} />
+        <SendOtpForm
+          mobile={mobile}
+          setMobile={setMobile}
+          setStep={setStep}
+          setOtpToastId={setOtpToastId}
+        />
       )}
       {step === 2 && (
         <CheckOtpForm
@@ -19,6 +24,7 @@ const AuthPage = () => {
           setStep={setStep}
           code={code}
           setCode={setCode}
+          otpToastId={otpToastId}
         />
       )}
     </div>
