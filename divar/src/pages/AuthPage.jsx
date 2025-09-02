@@ -7,6 +7,7 @@ const AuthPage = () => {
   const [mobile, setMobile] = useState("");
   const [code, setCode] = useState("");
   const [otpToastId, setOtpToastId] = useState(null);
+    const [otp, setOtp] = useState({ code: null, expires: null });
 
   return (
     <div className="">
@@ -16,6 +17,8 @@ const AuthPage = () => {
           setMobile={setMobile}
           setStep={setStep}
           setOtpToastId={setOtpToastId}
+          setOtp={setOtp}
+       
         />
       )}
       {step === 2 && (
@@ -25,6 +28,7 @@ const AuthPage = () => {
           code={code}
           setCode={setCode}
           otpToastId={otpToastId}
+             otp={otp}
         />
       )}
     </div>

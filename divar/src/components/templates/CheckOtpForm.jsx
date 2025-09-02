@@ -2,20 +2,25 @@ import toast from "react-hot-toast";
 import { useCheckOtp } from "../../services/user";
 import { setCookie } from "../../utils/cookie";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId }) => {
+const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId, otp }) => {
   const { mutate, isPending } = useCheckOtp();
+  const [validOtp, setValidOtp] = useState(null);
   const navigate = useNavigate();
   const submitHandler = (event) => {
     event.preventDefault();
     if (isPending) return;
-    otpToastId && toast.dismiss(otpToastId);
+    if (event.target.value !== otp) {
+      setValidOtp(false);
+    }
     mutate(
       { mobile, code },
       {
         onSuccess: (response) => {
           setCookie(response.data);
+          otpToastId && toast.dismiss(otpToastId);
           navigate("/");
         },
         onError: (error) => {
@@ -36,6 +41,9 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId }) => {
         کد پیامک شده به شماره {mobile} را وارد کنید
       </span>
       <label htmlFor="input">کد تایید را وارد کنید</label>
+      {validOtp === false && (
+        <span className="text-red-600">کد تایید صحیح نیست</span>
+      )}
       <input
         className="mt-[10px] m-x-0 mb-[20px] p-[5px] border border-solid border-gray-500 rounded-md"
         type="text"

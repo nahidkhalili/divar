@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+// import { useState } from "react";
 import { useSendOtp } from "../../services/user";
 import toast from "react-hot-toast";
 import Countdown from "react-countdown";
 
-const SendOtpForm = ({ mobile, setMobile, setStep, setOtpToastId }) => {
-  const [otp, setOtp] = useState({ code: null, expires: null });
+const SendOtpForm = ({ mobile, setMobile, setStep, setOtpToastId , setOtp}) => {
+  // const [otp, setOtp] = useState({ code: null, expires: null });
 
   const { mutate, isPending } = useSendOtp();
 
@@ -98,9 +98,9 @@ const SendOtpForm = ({ mobile, setMobile, setStep, setOtpToastId }) => {
         value={mobile}
         onChange={(e) => setMobile(e.target.value)}
       />
-      {otp.code && (
+      {/* {otp.code && (
         <p className="text-green-600 mt-4">کد تایید شما: {otp.code}</p>
-      )}
+      )} */}
       <button
         type="submit"
         className="w-[110px] py-[5px] px-[10px] border-none bg-[#a62626] text-white rounded-md cursor-pointer"
