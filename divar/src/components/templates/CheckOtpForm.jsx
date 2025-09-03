@@ -5,16 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 /* eslint-disable react/prop-types */
-const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId, otp }) => {
+const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId }) => {
   const { mutate, isPending } = useCheckOtp();
-  const [validOtp, setValidOtp] = useState(null);
+  const [validOtp, setValidOtp] = useState(true);
   const navigate = useNavigate();
+
   const submitHandler = (event) => {
     event.preventDefault();
     if (isPending) return;
-    if (event.target.value !== otp) {
-      setValidOtp(false);
-    }
+
     mutate(
       { mobile, code },
       {
@@ -25,10 +24,10 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId, otp }) => {
         },
         onError: (error) => {
           console.log(error);
+          setValidOtp(false);
         },
       }
     );
-    console.log({ code, mobile });
   };
 
   return (
@@ -41,8 +40,10 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId, otp }) => {
         کد پیامک شده به شماره {mobile} را وارد کنید
       </span>
       <label htmlFor="input">کد تایید را وارد کنید</label>
-      {validOtp === false && (
-        <span className="text-red-600">کد تایید صحیح نیست</span>
+      {!validOtp && (
+        <span className="text-red-600 mb-2">
+          کد تایید صحیح نیست یا منقضی شده
+        </span>
       )}
       <input
         className="mt-[10px] m-x-0 mb-[20px] p-[5px] border border-solid border-gray-500 rounded-md"
@@ -59,8 +60,8 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId, otp }) => {
         ورود
       </button>
       <button
-        className="bg-white text-[#a62626] border border-solid rounded-md border-[#a62626] w-[150px] mt-[30px] py-[5px] px-[10px] cursor-pointer
-      "
+        className="bg-white text-[#a62626] border border-solid rounded-md border-[#a62626] w-[150px] mt-[30px] py-[5px] px-[10px] cursor-pointer"
+        type="button"
         onClick={() => {
           setStep(1);
           otpToastId && toast.dismiss(otpToastId);
