@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
-import DropDownMenu from "../components/modules/DropDownMenu";
+
 import { useEffect, useRef, useState } from "react";
+import DropDownMenu from "../components/modules/DropDownMenu";
 
-const Header = () => {
+const Header = (): JSX.Element => {
   const [activeHeader, setActiveHeader] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const closeMenu = () => {
+  const closeMenu = (): void => {
     setActiveHeader(false);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         closeMenu();
       }
     };
@@ -57,7 +58,7 @@ const Header = () => {
             <p className="text-[0.8rem] mr-2"> چت و تماس</p>
           </div>
         </Link>
-        <Link>
+        <Link to="/support">
           <div className=" flex flex-row cursor-pointer w-[140px] items-center px-6 text-gray-500 h-[50px] rounded-[3px] hover:bg-gray-200  active:bg-gray-200">
             <img className="w-[18px]" src="/buoy.png" />
             <p className="text-[0.8rem] mr-2"> پشتیبانی</p>
