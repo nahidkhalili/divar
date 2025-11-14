@@ -1,4 +1,9 @@
-const setCookie = (tokens) => {
+type Tokens = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+const setCookie = (tokens: Tokens): void => {
   document.cookie = `accessToken=${tokens.accessToken} ; max-age=${
     1 * 60
   } ; path=/`; // 60 seconds
@@ -7,7 +12,7 @@ const setCookie = (tokens) => {
   }; path=/`;
 };
 
-const getCookie = (cookieName) => {
+const getCookie = (cookieName: string): string | undefined => {
   return document.cookie
     .split(";")
     .find((token) => token.trim().split("=")[0] === cookieName)
