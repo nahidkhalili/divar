@@ -18,7 +18,10 @@ const CheckOtpForm = ({ mobile, setStep, setCode, code, otpToastId }) => {
       { mobile, code },
       {
         onSuccess: (response) => {
-          setCookie(response.data);
+          setCookie({
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+          });
           otpToastId && toast.dismiss(otpToastId);
           navigate("/");
         },

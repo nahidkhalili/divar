@@ -21,7 +21,7 @@ const PostsList = () => {
             لیست آگهی ها
           </h1>
           <div className="flex flex-col gap-3">
-            {data?.data.posts.map((post) => (
+            {data?.posts.map((post) => (
               <div
                 className="border border-gray-400 rounded-xl p-2 flex flex-row justify-between items-center"
                 key={post._id}
@@ -33,9 +33,9 @@ const PostsList = () => {
                     alt="image"
                   />
                   <div>
-                    <p>{post.options.title}</p>
+                    <p>{post.options?.title}</p>
                     <span className="text-gray-400">
-                      {post.options.content}
+                      {post.options?.content}
                     </span>
                   </div>
                 </div>

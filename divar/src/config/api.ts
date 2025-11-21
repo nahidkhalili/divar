@@ -16,10 +16,14 @@ const api = axios.create({
 api.interceptors.request.use(
   (request) => {
     const accessToken = getCookie("accessToken");
+    console.log("📌 REQUEST →", request.url);
+    console.log("📌 ACCESS TOKEN FROM COOKIE:", accessToken);
     if (accessToken) {
       request.headers["Authorization"] = `bearer ${accessToken}`;
-
+      console.log("📌 FINAL REQUEST HEADERS:", request.headers);
       return request;
+    } else {
+      console.warn("❌ NO ACCESS TOKEN FOUND");
     }
     return request;
   },
@@ -39,8 +43,9 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const res = await getNewToken();
-      if (!res?.res) return;
-      setCookie(res.res.data);
+      if (!res) return;
+      console.log("api res:", res);
+      setCookie(res);
       return api(originalRequest);
     }
   }

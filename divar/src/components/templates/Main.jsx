@@ -5,7 +5,7 @@ import { sp } from "../../utils/number";
 const Main = ({ postData }) => {
   return (
     <div className="flex flex-wrap justify-between mt-[20px] w-[calc(100%-200px)]">
-      {postData?.data?.posts.map((post) => (
+      {postData?.posts.map((post) => (
         <div
           className="w-[330px] flex justify-between border border-[#eaeaea] rounded-2xl m-[10px] p-[15px]"
           key={post._id}

@@ -62,11 +62,11 @@ const AddPost = () => {
     console.log(formData);
     mutate(formData, {
       onSuccess: (res) => {
-        toast.success(res.data.message);
+        toast.success(res.message);
         resetForm();
       },
       onError: (err) => {
-        toast.error(err?.response?.data?.message || "خطایی رخ داد");
+        toast.error(err?.response?.message || "خطایی رخ داد");
       },
     });
     //   const token = getCookie("accessToken");

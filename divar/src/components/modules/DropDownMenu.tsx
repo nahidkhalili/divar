@@ -3,21 +3,30 @@ import { Link } from "react-router-dom";
 import { useGetProfile } from "../../services/queries";
 import { e2p } from "../../utils/number";
 
-const DropDownMenu = ({ className = "", closeMenu }) => {
+type DropDownProps = {
+  className?: string;
+  closeMenu?: () => void;
+};
+
+const DropDownMenu = ({ className = "", closeMenu }: DropDownProps) => {
   const { data, isLoading, isError } = useGetProfile();
-  console.log("isloading", isLoading, isError);
+  if (isLoading) return <div>در حال بارگذاری...</div>;
+  if (isError) return <div>خطا در بارگذاری پروفایل</div>;
+  console.log("isloading:", isLoading, "data:", data);
   return (
     <div
       className={`px-4 py-3  bg-white w-[220px] rounded-[5px] shadow-[0_0_10px_rgba(0,0,0,0.15)] text-gray-500 text-[13px] ${className}`}
     >
       <div>
         {data ? (
-          <Link to="/dashboard">
-            <div className="flex flex-row cursor-pointer py-3 justify-start items-baseline gap-2" onClick={closeMenu}>
+          <Link to="/dashboard" onClick={closeMenu}>
+            <div className="flex flex-row cursor-pointer py-3 justify-start items-baseline gap-2">
               <img src="/profile.svg" className="w-[15px]" />
               <div className="flex flex-col justify-start gap-1">
                 <span>کاربر دیوار</span>
-                <span className="text-gray-300">{e2p(data.data.mobile)}</span>
+                <span className="text-gray-300">
+                  {data?.mobile && e2p(data.mobile)}
+                </span>
               </div>
             </div>
           </Link>

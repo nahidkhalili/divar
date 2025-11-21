@@ -11,16 +11,19 @@ export type Profile = {
 const useGetProfile = () => {
   const queryKey = ["profile"];
 
-  const queryFn = async (): Promise<Profile | false> => {
+  const queryFn = async (): Promise<Profile | null> => {
     try {
+      console.log("🚀 CALLING GET PROFILE...");
+
       const res = await api.get<Profile>("user/whoami");
-      return res.data || false;
+      console.log("📥 PROFILE RESPONSE:", res.data);
+      return res.data || null;
     } catch (err) {
-      return false;
+      return null;
     }
   };
 
-  return useQuery<Profile | false, Error>({ queryKey, queryFn });
+  return useQuery<Profile | null, Error>({ queryKey, queryFn });
 };
 
 export { useGetProfile };

@@ -2,64 +2,132 @@ import api from "../config/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiForm from "../config/apiForm";
 
-//==========================TYPES==========================//
-type CreatePostResponse = {
-  message: string;
-};
+//======================== MUTATIONS =======================//
+type SendOtpPayload = { mobile: string };
 
-type SendOtpType = {
+type SendOtpResponse = {
   message: string;
   otp: string;
-  expiresIn: string;
+  expiresIn: number;
 };
-
-//======================== MUTATIONS =======================//
 const useSendOtp = () => {
-  const mutationFn = async (number: string) => {
-    const res = await api.post("auth/send-otp", number);
+  const mutationFn = async (
+    payload: SendOtpPayload
+  ): Promise<SendOtpResponse> => {
+    const res = await api.post<SendOtpResponse>("auth/send-otp", payload);
     return res.data;
   };
-  return useMutation({ mutationFn });
+  return useMutation<SendOtpResponse, unknown, SendOtpPayload>({
+    mutationFn,
+  });
+};
+
+//=========================
+type CheckOtpPayload = {
+  mobile: string;
+  code: string;
+};
+
+type CheckOtpResponse = {
+  message: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 const useCheckOtp = () => {
   const queryClient = useQueryClient();
-  const mutationFn = ({ mobile, code }) => {
-    const response = api.post("auth/check-otp", { mobile, code });
-    return response;
+  const mutationFn = async (
+    payload: CheckOtpPayload
+  ): Promise<CheckOtpResponse> => {
+    const response = await api.post<CheckOtpResponse>(
+      "auth/check-otp",
+      payload
+    );
+    return response.data;
   };
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["profile"] });
   };
-  return useMutation({ mutationFn, onSuccess });
+  return useMutation<CheckOtpResponse, unknown, CheckOtpPayload>({
+    mutationFn,
+    onSuccess,
+  });
 };
 
+//=============================
+
+type CreatePostResponse = {
+  message: string;
+};
 const useCreatePost = () => {
   const queryClient = useQueryClient();
-  const mutationFn = (formData: FormData): Promise<CreatePostResponse> => {
-    const response = apiForm.post<CreatePostResponse>("post/create", formData);
-    return response;
+  const mutationFn = async (
+    formData: FormData
+  ): Promise<CreatePostResponse> => {
+    const response = await apiForm.post<CreatePostResponse>(
+      "post/create",
+      formData
+    );
+    return response.data;
   };
 
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["get-my-posts"] });
   };
 
-  return useMutation({ mutationFn, onSuccess });
+  return useMutation<CreatePostResponse, unknown, FormData>({
+    mutationFn,
+    onSuccess,
+  });
 };
 
 // ============= USEQUERY ============== //
+export interface Post {
+  _id: string;
+  title?: string;
+  userId: string;
+  amount: number;
+  content?: string;
+  category: string;
+  province?: string;
+  city?: string;
+  district?: string;
+  address?: string;
+  coordinate?: number[];
+  images?: string[];
+  options?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+type GetPostsResponse = {
+  posts: Post[];
+  count: number;
+};
+
 const useGetPosts = () => {
   const queryKey = ["get-my-posts"];
-  const queryFn = () => api.get("post/my");
+  const queryFn = async (): Promise<GetPostsResponse> => {
+    const res = await api.get<GetPostsResponse>("post/my");
+    return res.data;
+  };
 
-  return useQuery({ queryKey, queryFn });
+  return useQuery<GetPostsResponse, unknown>({ queryKey, queryFn });
+};
+//============================
+type GetAllPostsResponse = {
+  posts: Post[];
 };
 
 const useGetAllPosts = () => {
   const queryKey = ["post-lists"];
-  const queryFn = () => api.get("");
-  return useQuery({ queryKey, queryFn });
+
+  const queryFn = async (): Promise<GetAllPostsResponse> => {
+    const res = await api.get<GetAllPostsResponse>("");
+    return res.data;
+  };
+
+  return useQuery<GetAllPostsResponse, unknown>({ queryKey, queryFn });
 };
 
 export { useSendOtp, useCheckOtp, useGetPosts, useCreatePost, useGetAllPosts };

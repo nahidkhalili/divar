@@ -10,7 +10,7 @@ import Loader from "../components/modules/Loader";
 const Router = () => {
   const { data, isLoading, error } = useGetProfile();
   const errorMsg =
-    error?.message || error?.response?.data?.message || "خطای ناشناخته";
+    error?.message || "خطای ناشناخته";
   if (isLoading) return <Loader />;
 
   if (error) return <h1>خطا در بارگذاری داده‌ها: {errorMsg}</h1>;
@@ -20,7 +20,7 @@ const Router = () => {
       <Route
         path="/admin"
         element={
-          data && data.data.role === "ADMIN" ? (
+          data && data.role === "ADMIN" ? (
             <AdminPage />
           ) : (
             <Navigate to="/" />

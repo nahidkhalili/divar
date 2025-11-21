@@ -4,12 +4,13 @@ type Tokens = {
 };
 
 const setCookie = (tokens: Tokens): void => {
-  document.cookie = `accessToken=${tokens.accessToken} ; max-age=${
-    1 * 60
-  } ; path=/`; // 60 seconds
-  document.cookie = `refreshToken=${tokens.refreshToken} ; max-age=${
+  document.cookie = `accessToken=${tokens.accessToken}; max-age=${
+    10 * 60
+  }; path=/`; // 60 seconds
+  document.cookie = `refreshToken=${tokens.refreshToken}; max-age=${
     30 * 24 * 60 * 60
   }; path=/`;
+  console.log("🍪 CURRENT COOKIES →", document.cookie);
 };
 
 const getCookie = (cookieName: string): string | undefined => {
