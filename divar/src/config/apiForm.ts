@@ -27,11 +27,11 @@ apiForm.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry == true;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       const res = await getNewToken();
-      if (!res?.res) return;
-      setCookie(res.res.data);
+      if (!res) return;
+      setCookie(res);
       return apiForm(originalRequest);
     }
   }

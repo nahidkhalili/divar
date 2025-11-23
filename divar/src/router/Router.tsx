@@ -9,8 +9,7 @@ import Loader from "../components/modules/Loader";
 
 const Router = () => {
   const { data, isLoading, error } = useGetProfile();
-  const errorMsg =
-    error?.message || "خطای ناشناخته";
+  const errorMsg = error?.message || "خطای ناشناخته";
   if (isLoading) return <Loader />;
 
   if (error) return <h1>خطا در بارگذاری داده‌ها: {errorMsg}</h1>;
@@ -20,11 +19,7 @@ const Router = () => {
       <Route
         path="/admin"
         element={
-          data && data.role === "ADMIN" ? (
-            <AdminPage />
-          ) : (
-            <Navigate to="/" />
-          )
+          data && data.role === "ADMIN" ? <AdminPage /> : <Navigate to="/" />
         }
       />
       <Route
