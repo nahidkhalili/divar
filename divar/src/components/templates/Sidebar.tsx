@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
+import type { Category } from "../../services/admin";
 
-const Sidebar = ({ categoryData }) => {
+type SidebarProps = {
+  categoryData?: Category[];
+};
+
+const Sidebar = ({ categoryData }: SidebarProps): JSX.Element => {
   return (
     <div className="mt-[30px] w-[200px]">
       <h4>دسته ها</h4>
