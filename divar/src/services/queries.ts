@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../config/api";
+import { QUERY_KEYS } from "../constants/queryKeys";
 
 export type Profile = {
   _id: string;
@@ -9,7 +10,7 @@ export type Profile = {
 };
 
 const useGetProfile = () => {
-  const queryKey = ["profile"];
+  const queryKey = QUERY_KEYS.PROFILE;
 
   const queryFn = async (): Promise<Profile | null> => {
     try {

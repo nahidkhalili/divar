@@ -2,6 +2,7 @@ import api from "../config/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiForm from "../config/apiForm";
 import type { AxiosError } from "axios";
+import { QUERY_KEYS } from "../constants/queryKeys";
 
 //======================== MUTATIONS =======================//
 type SendOtpPayload = { mobile: string };
@@ -47,7 +48,7 @@ const useCheckOtp = () => {
     return response.data;
   };
   const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["profile"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.PROFILE });
   };
   return useMutation<CheckOtpResponse, unknown, CheckOtpPayload>({
     mutationFn,
@@ -77,7 +78,7 @@ const useCreatePost = () => {
   };
 
   const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["get-my-posts"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.GET_MY_POSTS });
   };
 
   return useMutation<
@@ -115,7 +116,7 @@ type GetPostsResponse = {
 };
 
 const useGetPosts = () => {
-  const queryKey = ["get-my-posts"];
+  const queryKey = QUERY_KEYS.GET_MY_POSTS;
   const queryFn = async (): Promise<GetPostsResponse> => {
     const res = await api.get<GetPostsResponse>("post/my");
     return res.data;
@@ -129,7 +130,7 @@ type GetAllPostsResponse = {
 };
 
 const useGetAllPosts = () => {
-  const queryKey = ["post-lists"];
+  const queryKey = QUERY_KEYS.GET_ALL_POSTS;
 
   const queryFn = async (): Promise<GetAllPostsResponse> => {
     const res = await api.get<GetAllPostsResponse>("");

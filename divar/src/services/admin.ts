@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../config/api";
+import { QUERY_KEYS } from "../constants/queryKeys";
+
 
 //==================== TYPES ======================//
 export type Category = {
@@ -31,7 +33,7 @@ const useAddCategory = () => {
     return response.data;
   };
   const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["category-list"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.GET_CATEGORY_LIST });
   };
   return useMutation({ mutationFn, onSuccess });
 };
@@ -39,7 +41,7 @@ const useAddCategory = () => {
 //=============== GET CATEGORY ==================//
 
 const useGetCategory = () => {
-  const queryKey = ["category-list"];
+  const queryKey = QUERY_KEYS.GET_CATEGORY_LIST;
   const queryFn = async (): Promise<Category[]> => {
     const response = await api.get<Category[]>("category");
     return response.data; // { data: Category[] }
@@ -55,7 +57,7 @@ const useDeleteCategory = () => {
     return response.data;
   };
   const onSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["category-list"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.GET_CATEGORY_LIST });
   };
   return useMutation({ mutationFn, onSuccess });
 };
