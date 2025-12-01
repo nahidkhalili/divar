@@ -1,6 +1,7 @@
 import api from "../config/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiForm from "../config/apiForm";
+import type { AxiosError } from "axios";
 
 //======================== MUTATIONS =======================//
 type SendOtpPayload = { mobile: string };
@@ -59,6 +60,10 @@ const useCheckOtp = () => {
 type CreatePostResponse = {
   message: string;
 };
+type ApiErrorResponse = {
+  message?: string;
+};
+
 const useCreatePost = () => {
   const queryClient = useQueryClient();
   const mutationFn = async (
@@ -75,7 +80,11 @@ const useCreatePost = () => {
     queryClient.invalidateQueries({ queryKey: ["get-my-posts"] });
   };
 
-  return useMutation<CreatePostResponse, unknown, FormData>({
+  return useMutation<
+    CreatePostResponse,
+    AxiosError<ApiErrorResponse>,
+    FormData
+  >({
     mutationFn,
     onSuccess,
   });

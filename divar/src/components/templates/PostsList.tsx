@@ -2,9 +2,9 @@ import { useGetPosts } from "../../services/user";
 import { sp } from "../../utils/number";
 import Loader from "../modules/Loader";
 
-const PostsList = () => {
+const PostsList = (): JSX.Element => {
   const { data, isLoading, error } = useGetPosts();
-  console.log(data);
+  console.log("posts:", data);
   if (error) {
     console.log(error);
   }
@@ -27,11 +27,14 @@ const PostsList = () => {
                 key={post._id}
               >
                 <div className="flex flex-row items-center">
-                  <img
-                    className="ml-6 w-[100px] h-[70px] rounded-[3px]"
-                    src={`${import.meta.env.VITE_BASE_URL}${post.images[0]}`}
-                    alt="image"
-                  />
+                  {post.images && post.images.length > 0 && (
+                    <img
+                      className="ml-6 w-[100px] h-[70px] rounded-[3px]"
+                      src={`${import.meta.env.VITE_BASE_URL}${post.images[0]}`}
+                      alt="image"
+                    />
+                  )}
+
                   <div>
                     <p>{post.options?.title}</p>
                     <span className="text-gray-400">

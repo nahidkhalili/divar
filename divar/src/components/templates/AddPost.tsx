@@ -4,29 +4,21 @@ import Loader from "../modules/Loader";
 
 import toast from "react-hot-toast";
 import { useCreatePost } from "../../services/user";
-import { Category } from "../../services/admin";
-import type { AxiosError } from "axios";
 
-//=============== TYPES ================//
-type FormState = {
+type CreatePostForm = {
   title: string;
   content: string;
-  amount: string;
+  amount: number | string | null;
   city: string;
   category: string;
   images: File | null;
 };
 
-// type Category = {
-//   _id: string;
-//   name: string;
-// };
-
 const AddPost = (): JSX.Element => {
-  const [form, setForm] = useState<FormState>({
+  const [form, setForm] = useState<CreatePostForm>({
     title: "",
     content: "",
-    amount: "",
+    amount: null,
     city: "",
     category: "",
     images: null,
@@ -36,7 +28,7 @@ const AddPost = (): JSX.Element => {
     setForm({
       title: "",
       content: "",
-      amount: "",
+      amount: null,
       city: "",
       category: "",
       images: null,
@@ -59,37 +51,71 @@ const AddPost = (): JSX.Element => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
+    // const name = event.target.name;
+    // const value = event.target.value;
     const { name, value, files } = event.target as HTMLInputElement;
+    console.log("value:", value);
 
-    if (name === "images" && files) {
-      setForm({ ...form, [name]: files[0] });
-    } else {
+    if (name !== "images") {
       setForm({ ...form, [name]: value });
+    } else {
+      if (event) {
+        setForm({ ...form, [name]: files?.[0] ?? null });
+      }
     }
   };
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
+    // for (let i in form) {
+    //   if (i === "amount") {
+    //     formData.append(i, Number(form[i]));
+    //   } else {
+    //     formData.append(i, form[i]);
+    //   }
+    // }
     Object.entries(form).forEach(([key, value]) => {
-      if (key === "amount") {
-        formData.append(key, String(value));
-      } else if (value) {
-        formData.append(key, value as any);
+      if (value !== null && value !== "") {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, String(value));
+        }
       }
     });
 
     console.log(formData);
     mutate(formData, {
       onSuccess: (res) => {
-        toast.success(res.data.message);
+        toast.success(res.message);
         resetForm();
       },
       onError: (err) => {
-        const error = err as AxiosError<{ message: string }>;
-        toast.error(error.response?.data?.message || "خطایی رخ داد");
+        toast.error(err?.response?.data?.message || "خطایی رخ داد");
       },
     });
+    //   const token = getCookie("accessToken");
+    //   console.log("Token:", token);
+    //   axios
+    //     .post(`${import.meta.env.VITE_BASE_URL}post/create`, formData, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         Authorization: `bearer ${token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       toast.success(res.data.message);
+    //       setForm({
+    //         title: "",
+    //         content: "",
+    //         amount: null,
+    //         city: "",
+    //         category: "",
+    //         images: null,
+    //       });
+    //     })
+    //     .catch((err) => toast.error(err));
   };
 
   // ====================== JSX =========================//
